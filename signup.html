@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StageConnect - Signup</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>body{font-family:'Tajawal',sans-serif} .font-serif{font-family:'Playfair Display',serif}</style>
+</head>
+<body class="bg-white text-slate-900 min-h-screen flex flex-col">
+    <div id="nav-container"></div>
+    <main id="main-content" class="flex-grow fade-in"></main>
+    <div id="footer-container"></div>
+    <div id="cv-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50">
+        <div class="modal-overlay absolute w-full h-full bg-slate-900 opacity-50"></div>
+        <div class="modal-container bg-white w-11/12 md:max-w-3xl mx-auto rounded-2xl shadow-2xl z-50 overflow-y-auto max-h-[90vh]"><div id="cv-modal-content" class="flex flex-col h-full"></div></div>
+    </div>
+    <div id="offer-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50">
+        <div class="modal-overlay absolute w-full h-full bg-slate-900 opacity-50"></div>
+        <div class="modal-container bg-white w-11/12 md:max-w-3xl mx-auto rounded-2xl shadow-2xl z-50 overflow-y-auto max-h-[90vh]"><div id="offer-modal-content" class="flex flex-col h-full"></div></div>
+    </div>
+    <script>window.__initialPage = 'signup';</script>
+    <script src="app.js"></script>
+</body>
+</html>

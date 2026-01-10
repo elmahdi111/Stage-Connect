@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>StageConnect - Admin</title>
+    <script>
+      // Set language/dir on the document based on saved preference before the page renders
+      (function(){
+        try {
+          const l = localStorage.getItem('sc_lang');
+          if (l && ['ar','fr','en'].includes(l)) {
+            document.documentElement.lang = l;
+            document.documentElement.dir = (l === 'ar') ? 'rtl' : 'ltr';
+          }
+        } catch(e) {}
+      })();
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Tajawal', sans-serif; }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f1724; }
+        ::-webkit-scrollbar-thumb { background: #eab308; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #ca8a04; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .modal { transition: opacity 0.25s ease; }
+        body.modal-active { overflow-x: hidden; overflow-y: hidden !important; }
+    </style>
+  </head>
+  <body class="bg-slate-900 text-white min-h-screen flex flex-col">
+    <div id="nav-container"></div>
+    <!-- Admin top bar separated from main site -->
+    <div class="w-full bg-slate-800 border-b border-slate-700">
+      <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center gap-4">
+          <a href="home.html" class="text-sm text-slate-200 hover:text-white">Back to site</a>
+          <span class="text-sm text-slate-400">|</span>
+          <a href="#" onclick="adminSignOut(); return false;" class="text-sm text-red-400 hover:text-red-300">Sign out</a>
+        </div>
+        <div class="text-sm text-slate-300">Admin Area</div>
+      </div>
+    </div>
+    <main id="main-content" class="flex-grow fade-in"></main>
+    <div id="footer-container"></div>
+    <script>
+      // Prevent showing the regular SPA login when loading admin page directly.
+      // If user is not an admin, redirect to the dedicated admin login page.
+      (async function(){
+        try {
+          const resp = await fetch('api/whoami.php', { credentials: 'same-origin' });
+          if (!resp.ok) { window.location.href = 'admin_login.html'; return; }
+          const j = await resp.json();
+          if (!j || !j.success || !j.user || !j.user.is_admin) {
+            window.location.href = 'admin_login.html';
+            return;
+          }
+          // user is admin — proceed to load SPA app
+          window.__initialPage = 'admin';
+          const s = document.createElement('script');
+          s.src = 'app.js';
+          document.body.appendChild(s);
+        } catch (e) {
+          window.location.href = 'admin_login.html';
+        }
+      })();
+    </script>
+    <script>
+      async function adminSignOut() {
+        try {
+          await fetch('api/logout.php', { method: 'POST', credentials: 'same-origin' });
+        } catch (e) {
+          console.warn('logout failed', e);
+        }
+        // Redirect to main site home page after sign out
+        window.location.href = 'home.html';
+      }
+    </script>
+    <div id="cv-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50">
+        <div class="modal-overlay absolute w-full h-full bg-slate-900 opacity-50"></div>
+        <div class="modal-container bg-white w-11/12 md:max-w-3xl mx-auto rounded-2xl shadow-2xl z-50 overflow-y-auto max-h-[90vh]"><div id="cv-modal-content" class="flex flex-col h-full"></div></div>
+    </div>
+    <div id="offer-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50">
+        <div class="modal-overlay absolute w-full h-full bg-slate-900 opacity-50"></div>
+        <div class="modal-container bg-white w-11/12 md:max-w-3xl mx-auto rounded-2xl shadow-2xl z-50 overflow-y-auto max-h-[90vh]"><div id="offer-modal-content" class="flex flex-col h-full"></div></div>
+    </div>
+  </body>
+</html>

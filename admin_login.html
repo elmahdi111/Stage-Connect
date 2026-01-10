@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>StageConnect - Admin Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Tajawal', sans-serif; } .font-serif { font-family: 'Playfair Display', serif; }</style>
+  </head>
+  <body class="bg-slate-900 text-white min-h-screen flex items-center justify-center">
+    <div class="w-full max-w-xl px-6">
+      <div class="bg-slate-800 rounded-3xl shadow-2xl border border-slate-700 overflow-hidden">
+        <div class="grid grid-cols-1 md:grid-cols-2">
+          <div class="p-10 flex flex-col justify-center">
+            <div class="flex justify-between items-start mb-4">
+              <div>
+                <h1 id="admin-title" class="text-3xl font-serif font-bold mb-2">مرحباً أيها المشرف</h1>
+                <p id="admin-desc" class="text-slate-300 mb-6">سجّل الدخول للوصول إلى لوحة التحكم الإدارية.</p>
+              </div>
+              <div class="ml-4">
+                <select id="admin-lang" onchange="changeLangAdmin(this.value)" class="bg-slate-900 text-slate-200 border border-slate-700 rounded px-3 py-2">
+                  <option value="ar">العربية</option>
+                  <option value="fr">Français</option>
+                  <option value="en">English</option>
+                </select>
+              </div>
+            </div>
+
+            <form id="admin-login-form" class="space-y-4" onsubmit="event.preventDefault(); doAdminLogin();">
+              <div>
+                <label id="label-email" class="block text-sm text-slate-300 mb-2">البريد الإلكتروني</label>
+                <input id="admin-email" type="email" required class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 outline-none" placeholder="nourddin@admin.com" />
+              </div>
+              <div>
+                <label id="label-password" class="block text-sm text-slate-300 mb-2">كلمة المرور</label>
+                <input id="admin-password" type="password" required class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 outline-none" placeholder="كلمة المرور" />
+              </div>
+              <div class="pt-4">
+                <button id="admin-login-btn" type="submit" class="w-full bg-yellow-500 text-slate-900 px-4 py-3 rounded-xl font-bold hover:bg-yellow-400 transition">تسجيل الدخول</button>
+              </div>
+            </form>
+
+            <div id="admin-login-msg" class="mt-4 text-sm text-red-400"></div>
+
+            <div class="mt-6 text-slate-400 text-xs">
+              <p>If you don't have the admin account, run <code class="bg-slate-900 px-2 py-1 rounded">php tools/create_admin.php</code> on the server to create one.</p>
+            </div>
+          </div>
+          <div class="hidden md:flex items-center justify-center bg-gradient-to-br from-slate-900 to-yellow-500/10 p-6">
+            <div class="text-center px-6">
+              <i data-lucide="shield" class="w-16 h-16 text-yellow-400 mx-auto mb-4"></i>
+              <h3 class="text-xl font-bold mb-2">لوحة المشرف</h3>
+              <p class="text-slate-300 max-w-sm mx-auto">أدِر المستخدمين والحسابات، أعد تعيين كلمات المرور، واحذف الحسابات غير المرغوب فيها.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 text-center text-slate-400 text-xs">Back to <a href="/sc/" class="text-yellow-400">StageConnect</a></div>
+    </div>
+
+    <script>
+      const adminTranslations = {
+        ar: {
+          title: 'مرحباً أيها المشرف',
+          desc: 'سجّل الدخول للوصول إلى لوحة التحكم الإدارية.',
+          email: 'البريد الإلكتروني',
+          password: 'كلمة المرور',
+          logging: 'جارٍ تسجيل الدخول...'
+        },
+        fr: {
+          title: 'Bienvenue, Administrateur',
+          desc: 'Connectez-vous pour accéder au tableau de bord administrateur.',
+          email: 'Email',
+          password: 'Mot de passe',
+          logging: 'Connexion en cours...'
+        },
+        en: {
+          title: 'Welcome, Admin',
+          desc: 'Sign in to access the administration dashboard.',
+          email: 'Email',
+          password: 'Password',
+          logging: 'Signing in...'
+        }
+      };
+
+      function getSavedLang() {
+        try { const l = localStorage.getItem('sc_lang'); if (l && ['ar','fr','en'].includes(l)) return l; } catch(e){}
+        return 'ar';
+      }
+
+      function applyAdminLang(lang) {
+        const t = adminTranslations[lang] || adminTranslations.ar;
+        document.getElementById('admin-title').textContent = t.title;
+        document.getElementById('admin-desc').textContent = t.desc;
+        document.getElementById('label-email').textContent = t.email;
+        document.getElementById('label-password').textContent = t.password;
+        // set dir and html lang
+        document.documentElement.lang = lang;
+        document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+      }
+
+      function changeLangAdmin(lang) {
+        try { localStorage.setItem('sc_lang', lang); } catch(e){}
+        applyAdminLang(lang);
+      }
+
+      // initialize language selector and texts
+      (function(){
+        const lang = getSavedLang();
+        const sel = document.getElementById('admin-lang');
+        if (sel) sel.value = lang;
+        applyAdminLang(lang);
+      })();
+      async function doAdminLogin() {
+        const email = document.getElementById('admin-email').value.trim();
+        const password = document.getElementById('admin-password').value;
+        const msg = document.getElementById('admin-login-msg');
+        msg.textContent = '';
+        document.getElementById('admin-login-btn').disabled = true;
+        try {
+          const resp = await fetch('api/login.php', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ email: email, password: password, type: 'employer' })
+          });
+          const j = await resp.json();
+          if (!resp.ok || !j || !j.success) {
+            msg.textContent = j && j.error ? j.error : 'Login failed';
+            document.getElementById('admin-login-btn').disabled = false;
+            return;
+          }
+          // Ensure the logged-in user is admin
+          if (!j.user || !j.user.is_admin) {
+            msg.textContent = 'الحساب ليس مشرفاً.';
+            // clear server session just in case
+            await fetch('api/logout.php', { method: 'POST', credentials: 'same-origin' });
+            document.getElementById('admin-login-btn').disabled = false;
+            return;
+          }
+          // Successful admin login: redirect to admin.html
+          window.location.href = 'admin.html';
+        } catch (e) {
+          console.error('Admin login error', e);
+          msg.textContent = 'خطأ في الاتصال بالخادم.';
+          document.getElementById('admin-login-btn').disabled = false;
+        }
+      }
+
+      // If already logged in as admin, go straight to admin.html
+      (async function() {
+        try {
+          const who = await fetch('api/whoami.php', { credentials: 'same-origin' });
+          if (who.ok) {
+            const j = await who.json();
+            if (j && j.success && j.user && j.user.is_admin) {
+              window.location.href = 'admin.html';
+            }
+          }
+        } catch (e) { /* ignore */ }
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StageConnect - Agadir Hospitality Internships</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Tajawal', sans-serif; }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #eab308; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #ca8a04; }
+
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade-in { animation: fadeIn 0.3s ease-in-out; }
+        
+        /* Modal Styles */
+        .modal { transition: opacity 0.25s ease; }
+        body.modal-active { overflow-x: hidden; overflow-y: hidden !important; }
+    </style>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            900: '#0f172a',
+                            800: '#1e293b',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-white text-slate-900 min-h-screen flex flex-col">
+
+    <!-- Notifications Container -->
+    <div id="notifications-container" class="fixed top-4 right-4 z-[9999] max-w-md"></div>
+
+    <!-- Navigation Container -->
+    <div id="nav-container"></div>
+
+    <!-- Main Content Area -->
+    <main id="main-content" class="flex-grow fade-in"></main>
+
+    <!-- Footer Container -->
+    <div id="footer-container"></div>
+
+    <!-- CV Preview Modal -->
+    <div id="cv-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50">
+        <div class="modal-overlay absolute w-full h-full bg-slate-900 opacity-50"></div>
+        
+        <div class="modal-container bg-white w-11/12 md:max-w-3xl mx-auto rounded-2xl shadow-2xl z-50 overflow-y-auto max-h-[90vh]">
+            <!-- Content populated by JS -->
+            <div id="cv-modal-content" class="flex flex-col h-full"></div>
+        </div>
+    </div>
+    <!-- JavaScript Application Logic -->
+    <script src="app.js"></script>
+    <script>
+        // --- Initialization ---
+        window.addEventListener('DOMContentLoaded', async function() {
+            await fetchDataFromServer();
+            await checkSession();
+            await fetchPosts();
+            renderApp();
+            startAutoUpdate(8000);
+        });
+    </script>
+</body>
+</html>
+                footerDesc: "منصة مخصصة لمتدربي التكوين المهني ومكتب التكوين المهني وإنعاش الشغل (OFPPT) الباحثين عن فرص تدريب.",
+                allRegions: "كل المناطق",
+                allDepts: "كل الأقسام",
+                regions: { "Zone Touristique": "المنطقة السياحية", "Taghazout Bay": "تغازوت باي", "Agadir Centre": "وسط المدينة", "Imi Ouaddar": "إمي وادار" },
+                requirements: "المتطلبات",
+                summary: "ملخص",
+                durationLabel: "المدة",
+                typeLabel: "القسم",
+                mapLink: "الخريطة",
+                reqList: ["مظهر وسلوك مهني.", "مسجل حالياً في تخصص الفندقة.", "متاح طوال فترة التدريب."],
+                // Columns
+                colHotel: "الفندق",
+                colRole: "المنصب",
+                // Employer Specific
+                employerDashboard: "لوحة تحكم المشغل",
+                receivedApps: "الطلبات الواردة",
+                applicant: "المترشح",
+                position: "المنصب",
+                actions: "إجراءات",
+                viewCV: "عرض CV",
+                accept: "قبول",
+                reject: "رفض",
+                loginAsTrainee: "دخول كمتدرب",
+                loginAsEmployer: "دخول كفندق",
+                downloadCV: "تحميل السيرة الذاتية",
+                cvPreview: "معاينة الملف",
+                skills: "المهارات",
+                education: "التعليم",
+                close: "إغلاق",
+                noApps: "لا توجد طلبات حتى الآن."
+            },
+            fr: {
+                home: "Accueil",
+                listings: "Offres de Stage",
+                login: "Se connecter",
+                logout: "Déconnexion",
+                profile: "Mon Profil",
+                dashboard: "Tableau de bord",
+                heroTitle: "Trouvez votre stage dans les",
+                heroHighlight: "meilleurs hôtels d'Agadir",
+                heroDesc: "La plateforme de référence connectant les stagiaires de la Formation Professionnelle (OFPPT) aux meilleurs établissements hôteliers.",
+                browse: "Voir les offres",
+                iamHotel: "Espace Recruteur",
+                searchPlaceholder: "Rechercher un hôtel ou un poste...",
+                searchBtn: "Rechercher",
+                latestOffers: "Dernières offres de stage",
+                applyNow: "Postuler maintenant",
+                details: "Détails",
+                welcomeBack: "Bon retour",
+                loginDesc: "Connectez-vous pour accéder à votre compte.",
+                fullName: "Nom Complet",
+                email: "Email",
+                password: "Mot de passe",
+                rememberMe: "Se souvenir de moi",
+                noAccount: "Pas de compte ?",
+                createAccount: "Créer un compte",
+                myApplications: "Mes candidatures",
+                status: "Statut",
+                pending: "En cours",
+                approved: "Accepté",
+                rejected: "Refusé",
+                applicationDate: "Date de demande",
+                footerDesc: "Une plateforme dédiée aux stagiaires de l'OFPPT et ses établissements affiliés cherchant des stages.",
+                allRegions: "Toutes les régions",
+                allDepts: "Tous les départements",
+                regions: { "Zone Touristique": "Zone Touristique", "Taghazout Bay": "Taghazout Bay", "Agadir Centre": "Centre Ville", "Imi Ouaddar": "Imi Ouaddar" },
+                requirements: "Prérequis",
+                summary: "Résumé",
+                durationLabel: "Durée",
+                typeLabel: "Département",
+                mapLink: "Carte",
+                reqList: ["Présentation et attitude professionnelles.", "Actuellement inscrit en gestion hôtelière.", "Disponible pour la durée du stage."],
+                // Columns
+                colHotel: "Hôtel",
+                colRole: "Poste",
+                // Employer Specific
+                employerDashboard: "Espace Recruteur",
+                receivedApps: "Candidatures Reçues",
+                applicant: "Candidat",
+                position: "Poste",
+                actions: "Actions",
+                viewCV: "Voir CV",
+                accept: "Accepter",
+                reject: "Refuser",
+                loginAsTrainee: "Espace Stagiaire",
+                loginAsEmployer: "Espace Hôtel",
+                downloadCV: "Télécharger CV",
+                cvPreview: "Aperçu du fichier",
+                skills: "Compétences",
+                education: "Éducation",
+                close: "Fermer",
+                noApps: "Aucune candidature pour le moment."
+            },
+            en: {
+                home: "Home",
+                listings: "Internships",
+                login: "Login",
+                logout: "Logout",
+                profile: "My Profile",
+                dashboard: "Dashboard",
+                heroTitle: "Find your internship at",
+                heroHighlight: "Agadir's finest hotels",
+                heroDesc: "The official platform connecting Vocational Training (OFPPT) trainees with top tourism establishments in Agadir.",
+                browse: "Browse Offers",
+                iamHotel: "I am a Hotel",
+                searchPlaceholder: "Search hotel or position...",
+                searchBtn: "Search",
+                latestOffers: "Latest Internship Opportunities",
+                applyNow: "Apply Now",
+                details: "Details",
+                welcomeBack: "Welcome Back",
+                loginDesc: "Login to access your account.",
+                fullName: "Full Name",
+                email: "Email",
+                password: "Password",
+                rememberMe: "Remember me",
+                noAccount: "No account?",
+                createAccount: "Create new account",
+                myApplications: "My Applications",
+                status: "Status",
+                pending: "Pending",
+                approved: "Approved",
+                rejected: "Rejected",
+                applicationDate: "Date Applied",
+                footerDesc: "Dedicated to OFPPT vocational training trainees seeking internship opportunities.",
+                allRegions: "All Regions",
+                allDepts: "All Departments",
+                regions: { "Zone Touristique": "Tourist Zone", "Taghazout Bay": "Taghazout Bay", "Agadir Centre": "City Center", "Imi Ouaddar": "Imi Ouaddar" },
+                requirements: "Requirements",
+                summary: "Summary",
+                durationLabel: "Duration",
+                typeLabel: "Department",
+                mapLink: "Map",
+                reqList: ["Professional appearance and attitude.", "Currently enrolled in Hospitality Management.", "Available for the internship duration."],
+                // Columns
+                colHotel: "Hotel",
+                colRole: "Role",
+                // Employer Specific
+                employerDashboard: "Employer Dashboard",
+                receivedApps: "Received Applications",
+                applicant: "Applicant",
+                position: "Position",
+                actions: "Actions",
+                viewCV: "View CV",
+                accept: "Accept",
+                reject: "Reject",
+                loginAsTrainee: "Trainee Login",
+                loginAsEmployer: "Hotel Login",
+                downloadCV: "Download CV",
+                cvPreview: "File Preview",
+                skills: "Skills",
+                education: "Education",
+                close: "Close",
+                noApps: "No applications yet."
+            }
+        };
+
+        const internships = [
+            { id: 1, title: { ar: "متدرب في قسم الاستقبال", fr: "Stagiaire Réception", en: "Front Office Trainee" }, hotel: "Royal Atlas Agadir", location: "Zone Touristique", type: { ar: "استقبال", fr: "Réception", en: "Front Office" }, duration: { ar: "3 أشهر", fr: "3 Mois", en: "3 Months" }, rating: 5, image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=1000", description: { ar: "نبحث عن متدربين شغوفين للانضمام لفريق الاستقبال.", fr: "Nous recherchons des stagiaires passionnés.", en: "Looking for passionate trainees." } },
+            { id: 2, title: { ar: "مساعد شيف", fr: "Commis de Cuisine", en: "Kitchen Assistant" }, hotel: "Sofitel Agadir Thalassa", location: "Agadir Centre", type: { ar: "طبخ", fr: "Cuisine", en: "Cuisine" }, duration: { ar: "6 أشهر", fr: "6 Mois", en: "6 Months" }, rating: 5, image: "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&q=80&w=1000", description: { ar: "فرصة للتدرب في مطبخ عالمي.", fr: "Opportunité de stage dans une cuisine internationale.", en: "Opportunity to train in a world-class kitchen." } },
+            { id: 3, title: { ar: "خدمة الغرف", fr: "Femme/Valet de Chambre", en: "Housekeeping" }, hotel: "Hyatt Regency Taghazout", location: "Taghazout Bay", type: { ar: "تدبير فندقي", fr: "Housekeeping", en: "Housekeeping" }, duration: { ar: "4 أشهر", fr: "4 Mois", en: "4 Months" }, rating: 5, image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&q=80&w=1000", description: { ar: "تعلم أصول التدبير الفندقي.", fr: "Apprenez les standards du housekeeping.", en: "Learn housekeeping standards." } },
+            { id: 4, title: { ar: "نادِل / نادِلة", fr: "Serveur / Serveuse", en: "Waiter / Waitress" }, hotel: "Robinson Club", location: "Zone Touristique", type: { ar: "مطعم", fr: "Restauration", en: "Restaurant" }, duration: { ar: "3 أشهر", fr: "3 Mois", en: "3 Months" }, rating: 4, image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=1000", description: { ar: "مطلوب متدربين لخدمة المطعم.", fr: "Stagiaires recherchés pour le service.", en: "Trainees needed for restaurant service." } },
+            { id: 5, title: { ar: "متدربة في السبا", fr: "Stagiaire Spa", en: "Spa Therapist Trainee" }, hotel: "Fairmont Taghazout Bay", location: "Taghazout Bay", type: { ar: "صحة ورفاهية", fr: "Bien-être", en: "SPA & Wellness" }, duration: { ar: "6 أشهر", fr: "6 Mois", en: "6 Months" }, rating: 5, image: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&q=80&w=1000", description: { ar: "انضم لفريق المركز الصحي الفاخر.", fr: "Rejoignez notre équipe bien-être.", en: "Join our luxury wellness center team." } },
+            { id: 8, title: { ar: "مساعد ساقي", fr: "Assistant Barman", en: "Barman Assistant" }, hotel: "Hilton Taghazout Bay", location: "Taghazout Bay", type: { ar: "مطعم", fr: "Restauration", en: "Restaurant" }, duration: { ar: "3 أشهر", fr: "3 Mois", en: "3 Months" }, rating: 5, image: "https://images.unsplash.com/photo-1574096079513-d8259312b785?auto=format&fit=crop&q=80&w=1000", description: { ar: "المساعدة في عمليات البار.", fr: "Assister aux opérations du bar.", en: "Assist in bar operations." } }
+        ];
+
+        // Mutable Data for Employer Dashboard
+        const employerApplications = [
+            { id: 1, name: "ياسين العمراني", position: "Front Office", date: "2023-11-25", status: "pending", avatar: "Y", email: "yassine@cmc.ma", phone: "0661234567", school: "CMC Agadir", skills: ["Microsoft Office", "French (C1)", "English (B2)"] },
+            { id: 2, name: "سارة بناني", position: "Cuisine", date: "2023-11-24", status: "approved", avatar: "S", email: "sara@ista.ma", phone: "0669876543", school: "ISTA Tassila", skills: ["HACCP", "Pastry", "Teamwork"] },
+            { id: 3, name: "كمال العلمي", position: "Housekeeping", date: "2023-11-23", status: "rejected", avatar: "K", email: "kamal@ita.ma", phone: "0665554433", school: "ITA Inezgane", skills: ["Cleaning", "Organization"] },
+            { id: 4, name: "مريم التازي", position: "SPA & Wellness", date: "2023-11-22", status: "pending", avatar: "M", email: "meriem@cmc.ma", phone: "0662221100", school: "CMC Agadir", skills: ["Massage", "Customer Service"] }
+        ];
+
+        // --- Core Functions ---
+
+        function renderApp() {
+            document.documentElement.lang = state.lang;
+            document.documentElement.dir = state.lang === 'ar' ? 'rtl' : 'ltr';
+            renderNavigation();
+            renderMainContent();
+            renderFooter();
+            lucide.createIcons();
+        }
+
+        function renderNavigation() {
+            const t = translations[state.lang];
+            
+            const navHTML = `
+                <nav class="bg-slate-900 text-white shadow-lg sticky top-0 z-50 border-b border-white/5">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="flex items-center justify-between h-20">
+                            <!-- Logo -->
+                            <div class="flex items-center gap-3 group cursor-pointer select-none" onclick="navigateTo('home')">
+                                <div class="relative w-10 h-10 flex items-center justify-center">
+                                    <div class="absolute inset-0 rounded-full blur-md bg-yellow-500/20"></div>
+                                    <div class="relative w-full h-full rounded-xl flex items-center justify-center border shadow-lg transform group-hover:scale-105 transition duration-300 bg-gradient-to-br from-slate-800 to-slate-900 border-white/10">
+                                        <i data-lucide="award" class="w-5 h-5 text-yellow-500"></i>
+                                    </div>
+                                    <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-yellow-500 rounded-full flex items-center justify-center border-2 border-white shadow-sm">
+                                        <i data-lucide="star" class="w-2 h-2 text-white fill-current"></i>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="font-serif font-bold text-xl leading-none tracking-wide text-white">
+                                        Stage<span class="text-yellow-500">Connect</span>
+                                    </span>
+                                    <span class="text-[9px] uppercase tracking-[0.3em] font-medium mt-1 text-slate-400 group-hover:text-yellow-500 transition-colors">
+                                        Excellence
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <!-- Desktop Menu -->
+                            <div class="hidden md:flex items-center gap-4">
+                                <div class="flex items-baseline space-x-1 px-4 bg-slate-800/50 rounded-full py-1 border border-white/5">
+                                    <button onclick="navigateTo('home')" class="mx-1 px-4 py-1.5 rounded-full text-sm font-medium transition duration-300 ${state.currentPage === 'home' ? 'text-slate-900 bg-yellow-500 shadow-lg' : 'text-gray-300 hover:text-white hover:bg-white/5'}">${t.home}</button>
+                                    <button onclick="navigateTo('listings')" class="mx-1 px-4 py-1.5 rounded-full text-sm font-medium transition duration-300 ${state.currentPage === 'listings' ? 'text-slate-900 bg-yellow-500 shadow-lg' : 'text-gray-300 hover:text-white hover:bg-white/5'}">${t.listings}</button>
+                                </div>
+
+                                <!-- Lang Switcher -->
+                                <div class="flex items-center bg-slate-800/50 rounded-full px-3 py-1.5 mx-2 border border-white/10 hover:border-yellow-500/30 transition duration-300">
+                                    <i data-lucide="globe" class="w-4 h-4 text-gray-400 mx-1"></i>
+                                    <select onchange="changeLang(this.value)" class="bg-transparent text-sm text-gray-200 outline-none border-none cursor-pointer font-medium appearance-none">
+                                        <option value="ar" ${state.lang === 'ar' ? 'selected' : ''} class="text-slate-900">العربية</option>
+                                        <option value="fr" ${state.lang === 'fr' ? 'selected' : ''} class="text-slate-900">Français</option>
+                                        <option value="en" ${state.lang === 'en' ? 'selected' : ''} class="text-slate-900">English</option>
+                                    </select>
+                                </div>
+
+                                ${state.user ? `
+                                    <button onclick="navigateTo('profile')" class="flex items-center gap-2 bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-slate-900 px-5 py-2 rounded-full text-sm font-bold transition duration-300 shadow-lg shadow-yellow-500/20 transform hover:-translate-y-0.5">
+                                        <i data-lucide="user" class="w-4 h-4"></i> ${state.user.name}
+                                    </button>
+                                ` : `
+                                    <button onclick="navigateTo('login')" class="bg-white/10 hover:bg-white/20 text-white border border-white/10 px-6 py-2 rounded-full text-sm font-bold transition duration-300 shadow-lg mx-2 backdrop-blur-sm">
+                                        ${t.login}
+                                    </button>
+                                `}
+                            </div>
+                            
+                            <!-- Mobile Menu Button -->
+                            <div class="-mr-2 flex md:hidden">
+                                <button onclick="toggleMobileMenu()" class="bg-slate-800 p-2 rounded-md text-gray-400 hover:text-white hover:bg-slate-700">
+                                    <i data-lucide="menu" class="h-6 w-6"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Mobile Menu Dropdown -->
+                    <div id="mobile-menu" class="hidden md:hidden bg-slate-900 border-t border-slate-800 px-4 pt-4 pb-6 space-y-2 text-center">
+                         <button onclick="navigateTo('home')" class="text-gray-300 hover:text-white hover:bg-slate-800 block px-3 py-3 rounded-xl text-base font-medium w-full transition">${t.home}</button>
+                         <button onclick="navigateTo('listings')" class="text-gray-300 hover:text-white hover:bg-slate-800 block px-3 py-3 rounded-xl text-base font-medium w-full transition">${t.listings}</button>
+                         <div class="flex justify-center py-4 border-t border-slate-800 mt-2">
+                            <select onchange="changeLang(this.value)" class="bg-slate-800 text-white px-4 py-2 rounded-lg border border-slate-700 outline-none">
+                                <option value="ar" ${state.lang === 'ar' ? 'selected' : ''}>العربية</option>
+                                <option value="fr" ${state.lang === 'fr' ? 'selected' : ''}>Français</option>
+                                <option value="en" ${state.lang === 'en' ? 'selected' : ''}>English</option>
+                            </select>
+                         </div>
+                         ${state.user ? 
+                            `<button onclick="navigateTo('profile')" class="bg-yellow-500 text-slate-900 block px-3 py-3 rounded-xl text-base font-bold w-full shadow-lg mt-4">${t.profile}</button>` : 
+                            `<button onclick="navigateTo('login')" class="bg-white/10 text-white block px-3 py-3 rounded-xl text-base font-bold w-full mt-4 border border-white/10">${t.login}</button>`
+                         }
+                    </div>
+                </nav>
+            `;
+            document.getElementById('nav-container').innerHTML = state.currentPage === 'login' ? '' : navHTML;
+        }
+
+        function renderMainContent() {
+            const main = document.getElementById('main-content');
+            main.className = "flex-grow fade-in";
+            
+            if (state.currentPage === 'profile' && state.userType === 'employer') {
+                main.innerHTML = getEmployerDashboardHTML();
+                return;
+            }
+
+            switch (state.currentPage) {
+                case 'home': main.innerHTML = getHomeHTML(); break;
+                case 'listings': main.innerHTML = getListingsHTML(); break;
+                case 'detail': main.innerHTML = getDetailHTML(); break;
+                case 'login': main.innerHTML = getLoginHTML(); break;
+                case 'profile': main.innerHTML = getProfileHTML(); break;
+                case 'apply': main.innerHTML = getApplyHTML(); break;
+                case 'success': main.innerHTML = getSuccessHTML(); break;
+                default: main.innerHTML = getHomeHTML();
+            }
+        }
+
+        function renderFooter() {
+            if (state.currentPage === 'login') {
+                document.getElementById('footer-container').innerHTML = '';
+                return;
+            }
+            const t = translations[state.lang];
+            const footerHTML = `
+                <footer class="bg-slate-900 text-gray-400 py-20 border-t border-slate-800 mt-auto">
+                    <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-12 text-sm">
+                        <div class="col-span-1">
+                            <div class="flex items-center mb-6 gap-3">
+                                 <div class="flex items-center gap-2 select-none">
+                                    <div class="relative w-8 h-8 flex items-center justify-center">
+                                        <div class="absolute inset-0 rounded-full blur-sm bg-yellow-500/20"></div>
+                                        <div class="relative w-full h-full rounded-lg flex items-center justify-center border shadow-md bg-gradient-to-br from-slate-800 to-slate-900 border-white/10">
+                                            <i data-lucide="award" class="w-4 h-4 text-yellow-500"></i>
+                                        </div>
+                                    </div>
+                                    <span class="font-serif font-bold text-lg leading-none tracking-wide text-white">Stage<span class="text-yellow-500">Connect</span></span>
+                                </div>
+                            </div>
+                            <p class="leading-relaxed mb-8 text-gray-400 font-light">${t.footerDesc}</p>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold text-lg mb-8 font-serif">Quick Links</h4>
+                            <ul class="space-y-4">
+                                <li><a href="#" class="hover:text-yellow-500 transition flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-yellow-500"></span> About Us</a></li>
+                                <li><a href="#" class="hover:text-yellow-500 transition flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-yellow-500"></span> Find Internships</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold text-lg mb-8 font-serif">Contact</h4>
+                            <ul class="space-y-4">
+                                <li class="flex items-start gap-3"><i data-lucide="map-pin" class="w-5 h-5 text-yellow-500 shrink-0"></i> Agadir, Morocco</li>
+                                <li class="flex items-start gap-3"><i data-lucide="mail" class="w-5 h-5 text-yellow-500 shrink-0"></i> contact@stageconnect.ma</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="max-w-7xl mx-auto px-4 mt-16 pt-8 border-t border-slate-800 text-center text-xs text-gray-500 flex flex-col md:flex-row justify-between items-center">
+                        <p>&copy; 2024 StageConnect. All Rights Reserved.</p>
+                        <p class="mt-2 md:mt-0">Designed for CMC & OFPPT Trainees</p>
+                    </div>
+                </footer>
+            `;
+            document.getElementById('footer-container').innerHTML = footerHTML;
+        }
+
+        // --- HTML Generators for Views ---
+
+        function getHomeHTML() {
+            const t = translations[state.lang];
+            return `
+                <div class="relative bg-slate-900 overflow-hidden">
+                    <div class="absolute inset-0">
+                        <img class="w-full h-full object-cover opacity-30" src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&q=80&w=2000" alt="Agadir Hotel" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40"></div>
+                    </div>
+                    <div class="relative max-w-7xl mx-auto py-24 px-4 sm:py-32 sm:px-6 lg:px-8 text-center">
+                        <div class="inline-flex items-center gap-2 bg-yellow-500/10 border border-yellow-500/20 rounded-full px-4 py-1.5 mb-8 backdrop-blur-sm">
+                            <i data-lucide="award" class="w-4 h-4 text-yellow-500"></i>
+                            <span class="text-yellow-500 text-xs font-bold tracking-wider uppercase">Premium Internships in Morocco</span>
+                        </div>
+                        <h1 class="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-7xl mb-6 font-serif">
+                            ${t.heroTitle} <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">${t.heroHighlight}</span>
+                        </h1>
+                        <p class="mt-6 text-xl text-gray-300 max-w-3xl mx-auto font-light leading-relaxed">${t.heroDesc}</p>
+                        <div class="mt-10 flex justify-center gap-4 flex-wrap">
+                            <button onclick="navigateTo('listings')" class="px-8 py-4 border border-transparent text-base font-bold rounded-full text-slate-900 bg-yellow-500 hover:bg-yellow-400 md:text-lg md:px-12 transition shadow-[0_0_20px_rgba(234,179,8,0.3)] hover:shadow-[0_0_30px_rgba(234,179,8,0.5)] transform hover:-translate-y-1">${t.browse}</button>
+                            <button onclick="navigateTo('login')" class="px-8 py-4 border border-white/20 text-base font-bold rounded-full text-white hover:bg-white/10 md:text-lg md:px-12 transition backdrop-blur-sm">${t.iamHotel}</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Features -->
+                <div class="max-w-7xl mx-auto px-4 py-24">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 text-center">
+                        <div class="p-10 bg-white rounded-3xl shadow-lg border border-gray-100 hover:shadow-2xl transition duration-500 transform hover:-translate-y-2 group">
+                            <div class="w-24 h-24 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-8 shadow-inner group-hover:bg-blue-600 group-hover:text-white transition duration-500"><i data-lucide="user" class="w-10 h-10"></i></div>
+                            <h3 class="font-bold text-2xl mb-4 font-serif text-slate-900">Create Profile</h3>
+                            <p class="text-gray-500 leading-relaxed">Build a professional profile that showcases your skills.</p>
+                        </div>
+                        <div class="p-10 bg-white rounded-3xl shadow-lg border border-gray-100 hover:shadow-2xl transition duration-500 transform hover:-translate-y-2 group">
+                            <div class="w-24 h-24 bg-yellow-50 text-yellow-600 rounded-full flex items-center justify-center mx-auto mb-8 shadow-inner group-hover:bg-yellow-500 group-hover:text-slate-900 transition duration-500"><i data-lucide="search" class="w-10 h-10"></i></div>
+                            <h3 class="font-bold text-2xl mb-4 font-serif text-slate-900">Search Opportunities</h3>
+                            <p class="text-gray-500 leading-relaxed">Filter through exclusive internship offers.</p>
+                        </div>
+                        <div class="p-10 bg-white rounded-3xl shadow-lg border border-gray-100 hover:shadow-2xl transition duration-500 transform hover:-translate-y-2 group">
+                            <div class="w-24 h-24 bg-green-50 text-green-600 rounded-full flex items-center justify-center mx-auto mb-8 shadow-inner group-hover:bg-green-600 group-hover:text-white transition duration-500"><i data-lucide="check-circle" class="w-10 h-10"></i></div>
+                            <h3 class="font-bold text-2xl mb-4 font-serif text-slate-900">Get Hired</h3>
+                            <p class="text-gray-500 leading-relaxed">Apply directly through our platform.</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getListingsHTML() {
+            const t = translations[state.lang];
+            const filtered = internships.filter(job => {
+                const sTerm = state.searchTerm.toLowerCase();
+                const matchText = job.hotel.toLowerCase().includes(sTerm) || 
+                                  job.title.ar.toLowerCase().includes(sTerm) || 
+                                  job.title.fr.toLowerCase().includes(sTerm) || 
+                                  job.title.en.toLowerCase().includes(sTerm);
+                const matchRegion = state.selectedRegion === '' || job.location === state.selectedRegion;
+                return matchText && matchRegion;
+            });
+
+            let cardsHTML = '';
+            if (filtered.length > 0) {
+                cardsHTML = `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">` + 
+                filtered.map(job => `
+                    <div class="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-2xl transition duration-500 border border-gray-100 flex flex-col h-full group cursor-pointer transform hover:-translate-y-1" onclick="openDetail(${job.id})">
+                        <div class="relative h-56 overflow-hidden">
+                            <img class="w-full h-full object-cover group-hover:scale-110 transition duration-700" src="${job.image}" alt="${job.hotel}" />
+                            <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition duration-500"></div>
+                            <div class="absolute top-4 right-4 bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-full text-xs font-bold text-slate-900 flex items-center shadow-sm rtl:right-auto rtl:left-4">
+                                <i data-lucide="star" class="w-3.5 h-3.5 text-yellow-500 mx-1 fill-current"></i> ${job.rating}.0
+                            </div>
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col">
+                            <div class="flex justify-between items-start mb-3">
+                                <span class="text-[10px] font-bold tracking-wider uppercase text-blue-600 bg-blue-50 px-3 py-1 rounded-full">${job.type[state.lang]}</span>
+                                <span class="text-xs text-gray-500 flex items-center font-medium bg-gray-50 px-2 py-1 rounded-full"><i data-lucide="clock" class="w-3.5 h-3.5 mx-1"></i> ${job.duration[state.lang]}</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-slate-900 mb-2 font-serif group-hover:text-yellow-600 transition leading-tight">${job.title[state.lang]}</h3>
+                            <p class="text-sm text-gray-500 font-medium mb-4 flex items-center"><i data-lucide="building" class="w-4 h-4 mx-1 text-gray-400"></i> ${job.hotel}</p>
+                            <div class="mt-auto pt-5 border-t border-gray-50 flex items-center justify-between">
+                                <span class="text-xs text-gray-500 flex items-center font-medium"><i data-lucide="map-pin" class="w-3.5 h-3.5 mx-1"></i> ${t.regions[job.location]}</span>
+                                <span class="text-slate-900 group-hover:text-yellow-600 font-bold text-xs transition rtl:flex-row-reverse flex items-center gap-1 bg-gray-50 group-hover:bg-yellow-50 px-3 py-1.5 rounded-full">${t.details} <span>&rarr;</span></span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('') + `</div>`;
+            } else {
+                cardsHTML = `
+                    <div class="text-center py-20 text-gray-500 bg-white rounded-3xl shadow-sm border border-gray-100 p-8 max-w-2xl mx-auto">
+                        <div class="bg-gray-50 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-8 animate-pulse"><i data-lucide="search" class="w-10 h-10 text-gray-300"></i></div>
+                        <p class="text-2xl font-bold text-gray-800 mb-2">No results found</p>
+                        <p class="text-gray-500 mb-6">Try adjusting your search or filters.</p>
+                        <button onclick="resetSearch()" class="text-white bg-slate-900 hover:bg-slate-800 px-8 py-3 rounded-full font-bold transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">Clear Filters</button>
+                    </div>`;
+            }
+
+            return `
+                <div class="bg-gray-50 min-h-screen pb-20">
+                    <div class="bg-slate-900 text-white py-20 px-4 mb-8 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+                        <div class="absolute top-0 right-0 w-96 h-96 bg-yellow-500 rounded-full mix-blend-overlay filter blur-[100px] opacity-20"></div>
+                        <div class="max-w-7xl mx-auto text-center relative z-10">
+                            <h2 class="text-3xl md:text-5xl font-bold mb-6 font-serif tracking-tight">${t.latestOffers}</h2>
+                            <p class="text-gray-400 max-w-2xl mx-auto text-lg">Explore exclusive opportunities.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white/80 backdrop-blur-xl rounded-2xl shadow-2xl p-6 -mt-16 relative z-10 mx-4 max-w-6xl md:mx-auto border border-white/50">
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div class="relative md:col-span-2 group">
+                                <i data-lucide="search" class="absolute right-4 top-3.5 text-gray-400 h-5 w-5 rtl:left-4 rtl:right-auto group-focus-within:text-yellow-500 transition-colors"></i>
+                                <input type="text" value="${state.searchTerm}" oninput="updateSearch(this.value)" placeholder="${t.searchPlaceholder}" class="w-full px-12 py-3.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent outline-none transition shadow-sm" />
+                            </div>
+                            <div class="relative group">
+                                <i data-lucide="map-pin" class="absolute right-4 top-3.5 text-gray-400 h-5 w-5 rtl:left-4 rtl:right-auto group-focus-within:text-yellow-500 transition-colors"></i>
+                                <select onchange="updateRegion(this.value)" class="w-full px-12 py-3.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent outline-none text-gray-600 appearance-none transition shadow-sm cursor-pointer">
+                                    <option value="" ${state.selectedRegion === '' ? 'selected' : ''}>${t.allRegions}</option>
+                                    <option value="Zone Touristique" ${state.selectedRegion === 'Zone Touristique' ? 'selected' : ''}>${t.regions["Zone Touristique"]}</option>
+                                    <option value="Taghazout Bay" ${state.selectedRegion === 'Taghazout Bay' ? 'selected' : ''}>${t.regions["Taghazout Bay"]}</option>
+                                    <option value="Agadir Centre" ${state.selectedRegion === 'Agadir Centre' ? 'selected' : ''}>${t.regions["Agadir Centre"]}</option>
+                                    <option value="Imi Ouaddar" ${state.selectedRegion === 'Imi Ouaddar' ? 'selected' : ''}>${t.regions["Imi Ouaddar"]}</option>
+                                </select>
+                            </div>
+                            <button onclick="renderApp()" class="bg-slate-900 text-white rounded-xl py-3.5 hover:bg-slate-800 transition font-bold shadow-lg shadow-slate-900/20 transform hover:-translate-y-0.5">${t.searchBtn}</button>
+                        </div>
+                    </div>
+
+                    <div class="max-w-7xl mx-auto px-4 mt-16">
+                        ${cardsHTML}
+                    </div>
+                </div>
+            `;
+        }
+
+        function getDetailHTML() {
+            const job = state.selectedJob;
+            const t = translations[state.lang];
+            const mapQuery = encodeURIComponent(job.hotel + ' Agadir Morocco');
+            
+            return `
+                <div class="max-w-4xl mx-auto px-4 py-8">
+                    <button onclick="navigateTo('listings')" class="flex items-center text-gray-500 hover:text-slate-900 mb-6 transition font-medium group">
+                        <div class="bg-white border border-gray-200 p-2 rounded-full shadow-sm group-hover:shadow-md mx-2 transition">
+                            <i data-lucide="chevron-left" class="w-4 h-4 rtl:rotate-180"></i>
+                        </div>
+                        ${t.listings}
+                    </button>
+                    
+                    <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
+                        <div class="h-64 md:h-[400px] relative">
+                            <img src="${job.image}" alt="${job.hotel}" class="w-full h-full object-cover" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/30 to-transparent"></div>
+                            <div class="absolute bottom-0 left-0 right-0 p-8 text-white">
+                                <div class="flex items-center gap-2 mb-4">
+                                    <span class="bg-yellow-500 text-slate-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-lg shadow-yellow-500/20">${job.type[state.lang]}</span>
+                                </div>
+                                <h1 class="text-3xl md:text-5xl font-bold mb-4 font-serif leading-tight">${job.title[state.lang]}</h1>
+                                <div class="flex flex-col md:flex-row md:items-center gap-6 text-sm md:text-base text-gray-300 font-light">
+                                    <span class="flex items-center"><i data-lucide="building" class="w-5 h-5 mx-2 text-yellow-500"></i> ${job.hotel}</span>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=${mapQuery}" target="_blank" rel="noopener noreferrer" class="flex items-center hover:text-white transition cursor-pointer group bg-white/5 px-4 py-1.5 rounded-full w-fit backdrop-blur-md hover:bg-white/10 border border-white/10 hover:border-yellow-500/50">
+                                        <i data-lucide="map-pin" class="w-5 h-5 mx-2 text-yellow-500 group-hover:animate-bounce"></i>
+                                        <span class="underline decoration-dotted decoration-yellow-500/50 underline-offset-4 decoration-2">${t.regions[job.location]}</span>
+                                        <span class="text-xs bg-yellow-500 text-slate-900 px-2 py-0.5 rounded-full mx-2 font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300">${t.mapLink} ↗</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="p-8 md:p-12">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                                <div class="md:col-span-2 space-y-10">
+                                    <div>
+                                        <h3 class="text-xl font-bold text-slate-900 mb-4 pb-2 border-b border-gray-100 flex items-center gap-2">
+                                            <i data-lucide="file-text" class="w-5 h-5 text-yellow-500"></i> ${t.details}
+                                        </h3>
+                                        <p class="text-gray-600 leading-relaxed text-lg font-light">${job.description[state.lang]}</p>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-xl font-bold text-slate-900 mb-4 pb-2 border-b border-gray-100 flex items-center gap-2">
+                                            <i data-lucide="check-circle" class="w-5 h-5 text-yellow-500"></i> ${t.requirements}
+                                        </h3>
+                                        <ul class="space-y-4">
+                                            ${t.reqList.map(req => `<li class="flex items-start text-gray-700 bg-gray-50 p-4 rounded-xl"><div class="bg-green-100 p-1 rounded-full mx-3 mt-0.5"><i data-lucide="check-circle" class="w-3.5 h-3.5 text-green-600"></i></div><span class="font-medium">${req}</span></li>`).join('')}
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="md:col-span-1">
+                                    <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-xl shadow-slate-200/50 sticky top-24">
+                                        <h3 class="font-bold text-xl mb-6 text-slate-900 font-serif">${t.summary}</h3>
+                                        <div class="space-y-6 mb-8">
+                                            <div class="flex justify-between items-center pb-4 border-b border-gray-50">
+                                                <span class="text-gray-400 text-sm font-medium">${t.durationLabel}</span>
+                                                <span class="font-bold text-slate-800 flex items-center gap-2"><i data-lucide="clock" class="w-4 h-4 text-blue-500"></i> ${job.duration[state.lang]}</span>
+                                            </div>
+                                            <div class="flex justify-between items-center pb-4 border-b border-gray-50">
+                                                <span class="text-gray-400 text-sm font-medium">${t.typeLabel}</span>
+                                                <span class="font-bold text-slate-800">${job.type[state.lang]}</span>
+                                            </div>
+                                        </div>
+                                        <button onclick="navigateTo('apply')" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-xl shadow-xl shadow-slate-900/20 transition transform hover:-translate-y-1 text-lg">${t.applyNow}</button>
+                                        <div class="mt-6 pt-6 border-t border-gray-50 text-center"><p class="text-xs text-gray-400">Certified by OFPPT & CMC Agadir</p></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getApplyHTML() {
+            const job = state.selectedJob;
+            const t = translations[state.lang];
+            return `
+                <div class="max-w-3xl mx-auto px-4 py-12">
+                    <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
+                        <div class="bg-slate-900 p-10 text-white flex justify-between items-center relative overflow-hidden">
+                            <div class="absolute top-0 right-0 w-64 h-64 bg-yellow-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 -mr-16 -mt-16"></div>
+                            <div class="relative z-10">
+                                <h2 class="text-3xl font-bold font-serif mb-2">${t.applyNow}</h2>
+                                <p class="text-yellow-500 text-sm font-medium">${job.title.en} - ${job.hotel}</p>
+                            </div>
+                            <div class="relative z-10 bg-white/10 p-4 rounded-2xl backdrop-blur-md border border-white/10 shadow-lg"><i data-lucide="briefcase" class="w-8 h-8 text-yellow-500"></i></div>
+                        </div>
+                        <div class="p-10">
+                            <form class="space-y-8" onsubmit="event.preventDefault(); submitApplication();">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    <div><label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Name</label><input type="text" required class="w-full px-5 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-yellow-500 outline-none transition bg-gray-50 focus:bg-white font-medium text-slate-900" placeholder="Ahmed Etudiant" /></div>
+                                    <div><label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Phone</label><input type="tel" required class="w-full px-5 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-yellow-500 outline-none transition bg-gray-50 focus:bg-white font-medium text-slate-900" placeholder="0600000000" /></div>
+                                </div>
+                                <div><label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Email</label><input type="email" required class="w-full px-5 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-yellow-500 outline-none transition bg-gray-50 focus:bg-white font-medium text-slate-900" placeholder="email@cmc-agadir.ma" /></div>
+                                <div><label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Institution / School</label><select class="w-full px-5 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-yellow-500 outline-none bg-gray-50 focus:bg-white transition cursor-pointer font-medium text-slate-900 appearance-none"><option>CMC Agadir (Cité des Métiers)</option><option>ISTA (Institut Spécialisé)</option><option>ITA (Institut de Technologie)</option><option>Autre</option></select></div>
+                                <div onclick="document.getElementById('file-input').click()" class="border-2 border-dashed rounded-2xl p-10 text-center transition cursor-pointer bg-gray-50 flex flex-col items-center justify-center group hover:border-yellow-500 hover:bg-yellow-50/50">
+                                    <div class="bg-white p-4 rounded-full shadow-sm mb-4 group-hover:scale-110 transition duration-300"><i data-lucide="upload" class="w-8 h-8 text-yellow-500"></i></div>
+                                    <p class="text-slate-900 font-bold text-lg">Upload your CV</p>
+                                    <p class="text-sm text-gray-500 mt-2 font-medium">PDF or DOCX (Max 5MB)</p>
+                                </div>
+                                <input type="file" id="file-input" class="hidden" accept=".pdf,.doc,.docx" onchange="alert('File Selected: ' + this.files[0].name)" />
+                                <div class="flex gap-4 pt-6 border-t border-gray-100">
+                                    <button type="button" onclick="navigateTo('detail')" class="w-1/3 py-4 border border-gray-200 rounded-xl font-bold text-gray-500 hover:text-slate-900 hover:bg-gray-50 transition">Cancel</button>
+                                    <button type="submit" class="w-2/3 bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-xl shadow-xl shadow-slate-900/20 transition transform hover:-translate-y-1 text-lg">Submit Application</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getSuccessHTML() {
+            const t = translations[state.lang];
+            return `
+                <div class="min-h-[70vh] flex flex-col items-center justify-center p-4 text-center">
+                    <div class="bg-green-50 p-10 rounded-full mb-8 shadow-lg"><i data-lucide="check-circle" class="w-24 h-24 text-green-500 animate-bounce"></i></div>
+                    <h2 class="text-5xl font-bold text-slate-900 mb-6 font-serif">Success!</h2>
+                    <p class="text-gray-500 max-w-lg text-xl mb-10 leading-relaxed">Your application has been submitted successfully to the HR department. Good luck!</p>
+                    <button onclick="navigateTo('home')" class="bg-slate-900 text-white px-12 py-4 rounded-full font-bold hover:bg-slate-800 transition shadow-2xl transform hover:-translate-y-1 text-lg">${t.home}</button>
+                </div>
+            `;
+        }
+
+        function getLoginHTML() {
+            const t = translations[state.lang];
+            return `
+                <div class="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+                    <div class="bg-white rounded-3xl shadow-2xl overflow-hidden max-w-5xl w-full flex flex-col md:flex-row min-h-[600px]">
+                        <div class="md:w-1/2 p-10 md:p-16 flex flex-col justify-center">
+                            <div class="flex items-center mb-12 cursor-pointer group w-fit" onclick="navigateTo('home')">
+                                 <div class="relative w-10 h-10 flex items-center justify-center">
+                                    <div class="absolute inset-0 rounded-full blur-md bg-yellow-500/10"></div>
+                                    <div class="relative w-full h-full rounded-xl flex items-center justify-center border shadow-lg bg-white border-slate-200">
+                                        <i data-lucide="award" class="w-5 h-5 text-yellow-500"></i>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col mx-2">
+                                    <span class="font-serif font-bold text-xl leading-none tracking-wide text-slate-900">Stage<span class="text-yellow-500">Connect</span></span>
+                                </div>
+                            </div>
+                            <h2 class="text-4xl font-bold text-slate-900 mb-3 font-serif">${t.welcomeBack}</h2>
+                            <p class="text-gray-500 mb-10 text-lg leading-relaxed">${t.loginDesc}</p>
+                            <form class="space-y-6" onsubmit="event.preventDefault();">
+                                <div><label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">${t.fullName}</label><input type="text" id="login-name" class="w-full px-5 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-yellow-500 outline-none transition bg-gray-50 focus:bg-white text-slate-900 font-medium" placeholder="Ahmed Etudiant" /></div>
+                                <div><label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">${t.email}</label><input type="email" id="login-email" required class="w-full px-5 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-yellow-500 outline-none transition bg-gray-50 focus:bg-white text-slate-900 font-medium" placeholder="name@example.com" /></div>
+                                <div><label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">${t.password}</label><input type="password" id="login-password" required class="w-full px-5 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-yellow-500 outline-none transition bg-gray-50 focus:bg-white text-slate-900 font-medium" placeholder="••••••••" /></div>
+                                <div class="flex gap-4 pt-4">
+                                    <button onclick="performLogin('trainee')" class="w-1/2 bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-xl transition shadow-xl shadow-slate-900/20 transform hover:-translate-y-0.5 text-base flex items-center justify-center gap-2"><i data-lucide="user" class="w-4 h-4"></i> ${t.loginAsTrainee}</button>
+                                    <button onclick="performLogin('employer')" class="w-1/2 bg-yellow-500 hover:bg-yellow-600 text-slate-900 font-bold py-4 rounded-xl transition shadow-xl shadow-yellow-500/20 transform hover:-translate-y-0.5 text-base flex items-center justify-center gap-2"><i data-lucide="building" class="w-4 h-4"></i> ${t.loginAsEmployer}</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="md:w-1/2 bg-slate-900 text-white p-12 flex flex-col justify-center relative overflow-hidden">
+                            <div class="absolute inset-0"><img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&q=80&w=1000" class="w-full h-full object-cover opacity-20" /><div class="absolute inset-0 bg-slate-900/40 mix-blend-multiply"></div></div>
+                            <div class="relative z-10"><h3 class="text-4xl font-bold mb-6 font-serif leading-tight">Your Gateway to<br/><span class="text-yellow-500">Luxury Hospitality</span></h3></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getProfileHTML() {
+            const t = translations[state.lang];
+            const user = state.user;
+            const apps = state.traineeApplications || [];
+            
+            let appsHTML = '';
+            if (apps.length === 0) {
+                appsHTML = `<div class="p-8 text-center text-gray-500">${t.noApps}</div>`;
+            } else {
+                const rows = apps.map(app => `
+                    <tr class="bg-white hover:bg-gray-50 border-b border-gray-100 transition">
+                        <td class="px-6 py-4 font-bold text-slate-900">${app.hotel}</td>
+                        <td class="px-6 py-4 text-gray-600">${app.role[state.lang]}</td>
+                        <td class="px-6 py-4 text-gray-500 text-sm">${app.date}</td>
+                        <td class="px-6 py-4">
+                            <span class="px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1.5 ${app.status === 'approved' ? 'bg-green-100 text-green-700' : app.status === 'rejected' ? 'bg-red-100 text-red-700' : 'bg-yellow-100 text-yellow-700'}">
+                                ${app.status === 'approved' ? t.approved : app.status === 'rejected' ? t.rejected : t.pending}
+                            </span>
+                        </td>
+                    </tr>
+                `).join('');
+                
+                appsHTML = `
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left rtl:text-right">
+                            <thead class="text-xs text-gray-400 uppercase bg-gray-50/30">
+                                <tr>
+                                    <th class="px-6 py-4 font-semibold">${t.colHotel}</th>
+                                    <th class="px-6 py-4 font-semibold">${t.colRole}</th>
+                                    <th class="px-6 py-4 font-semibold">${t.applicationDate}</th>
+                                    <th class="px-6 py-4 font-semibold">${t.status}</th>
+                                </tr>
+                            </thead>
+                            <tbody>${rows}</tbody>
+                        </table>
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="max-w-6xl mx-auto px-4 py-8">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                        <div class="md:col-span-1">
+                            <div class="bg-white rounded-3xl shadow-lg p-8 text-center border border-gray-100 relative overflow-hidden">
+                                <div class="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-slate-900 to-slate-800"></div>
+                                <div class="relative z-10">
+                                    <div class="w-24 h-24 bg-white p-1 rounded-full mx-auto mb-4 flex items-center justify-center shadow-lg"><div class="w-full h-full bg-slate-100 rounded-full flex items-center justify-center text-3xl font-bold text-slate-500 font-serif">${user.name.charAt(0)}</div></div>
+                                    <h2 class="text-xl font-bold text-slate-900 font-serif mb-1">${user.name}</h2>
+                                    <p class="text-sm text-gray-500 mb-6 font-medium">${user.email}</p>
+                                    <div class="space-y-3 text-start"><button onclick="performLogout()" class="w-full flex items-center gap-3 p-3.5 rounded-xl hover:bg-red-50 text-red-600 transition mt-4 border border-transparent hover:border-red-100 font-medium"><i data-lucide="log-out" class="w-5 h-5"></i> ${t.logout}</button></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="md:col-span-3">
+                            <div class="bg-white rounded-3xl shadow-lg border border-gray-100 overflow-hidden">
+                                <div class="p-8 border-b border-gray-100"><h3 class="font-bold text-xl text-slate-900 font-serif">${t.myApplications}</h3></div>
+                                ${appsHTML}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getEmployerDashboardHTML() {
+            const t = translations[state.lang];
+            const user = state.user;
+            
+            let rows = employerApplications.map(app => `
+                <tr class="bg-white hover:bg-gray-50 border-b border-gray-100 transition">
+                    <td class="px-6 py-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold font-serif">${app.avatar}</div>
+                            <span class="font-bold text-slate-900">${app.name}</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 text-gray-600">${app.position}</td>
+                    <td class="px-6 py-4 text-gray-500 text-sm">${app.date}</td>
+                    <td class="px-6 py-4">
+                        <span class="px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1.5 ${app.status === 'approved' ? 'bg-green-100 text-green-700' : app.status === 'rejected' ? 'bg-red-100 text-red-700' : 'bg-yellow-100 text-yellow-700'}">
+                            ${app.status === 'approved' ? t.approved : app.status === 'rejected' ? t.rejected : t.pending}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="flex gap-2">
+                            <button onclick="viewCV(${app.id})" class="bg-blue-50 text-blue-600 p-2 rounded-lg hover:bg-blue-100 transition" title="${t.viewCV}"><i data-lucide="file-text" class="w-4 h-4"></i></button>
+                            <button onclick="updateApplicationStatus(${app.id}, 'approved')" class="bg-green-50 text-green-600 p-2 rounded-lg hover:bg-green-100 transition" title="${t.accept}"><i data-lucide="check" class="w-4 h-4"></i></button>
+                            <button onclick="updateApplicationStatus(${app.id}, 'rejected')" class="bg-red-50 text-red-600 p-2 rounded-lg hover:bg-red-100 transition" title="${t.reject}"><i data-lucide="x" class="w-4 h-4"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+
+            return `
+                <div class="max-w-7xl mx-auto px-4 py-8">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                        <!-- Sidebar -->
+                        <div class="md:col-span-1">
+                            <div class="bg-white rounded-3xl shadow-lg p-8 text-center border border-gray-100 sticky top-24">
+                                <div class="w-24 h-24 bg-yellow-50 p-1 rounded-full mx-auto mb-4 flex items-center justify-center shadow-sm">
+                                    <i data-lucide="building" class="w-10 h-10 text-yellow-600"></i>
+                                </div>
+                                <h2 class="text-xl font-bold text-slate-900 font-serif mb-1">${user.name}</h2>
+                                <p class="text-sm text-gray-500 mb-6 font-medium">Hotel Manager</p>
+                                
+                                <div class="space-y-3 text-start">
+                                    <button class="w-full flex items-center gap-3 p-3.5 rounded-xl bg-slate-900 text-white font-medium shadow-md shadow-slate-900/10">
+                                        <i data-lucide="layout-dashboard" class="w-5 h-5"></i> ${t.dashboard}
+                                    </button>
+                                    <button onclick="performLogout()" class="w-full flex items-center gap-3 p-3.5 rounded-xl hover:bg-red-50 text-red-600 transition mt-4 border border-transparent hover:border-red-100 font-medium">
+                                        <i data-lucide="log-out" class="w-5 h-5"></i> ${t.logout}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Main Content -->
+                        <div class="md:col-span-3">
+                            <!-- Stats Row -->
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+                                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
+                                    <div class="p-4 bg-purple-50 rounded-2xl text-purple-600"><i data-lucide="users" class="w-8 h-8"></i></div>
+                                    <div><p class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-1">${t.receivedApps}</p><h3 class="text-3xl font-bold text-slate-900">${employerApplications.length}</h3></div>
+                                </div>
+                                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
+                                    <div class="p-4 bg-yellow-50 rounded-2xl text-yellow-600"><i data-lucide="clock" class="w-8 h-8"></i></div>
+                                    <div><p class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-1">${t.pending}</p><h3 class="text-3xl font-bold text-slate-900">${employerApplications.filter(a => a.status === 'pending').length}</h3></div>
+                                </div>
+                                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
+                                    <div class="p-4 bg-green-50 rounded-2xl text-green-600"><i data-lucide="check-circle" class="w-8 h-8"></i></div>
+                                    <div><p class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-1">${t.approved}</p><h3 class="text-3xl font-bold text-slate-900">${employerApplications.filter(a => a.status === 'approved').length}</h3></div>
+                                </div>
+                            </div>
+
+                            <!-- Applications Table -->
+                            <div class="bg-white rounded-3xl shadow-lg border border-gray-100 overflow-hidden">
+                                <div class="p-8 border-b border-gray-100 flex justify-between items-center bg-gray-50/30">
+                                    <h3 class="font-bold text-xl text-slate-900 font-serif">${t.receivedApps}</h3>
+                                </div>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-sm text-left rtl:text-right">
+                                        <thead class="text-xs text-gray-400 uppercase bg-gray-50">
+                                            <tr>
+                                                <th class="px-6 py-4 font-semibold">${t.applicant}</th>
+                                                <th class="px-6 py-4 font-semibold">${t.position}</th>
+                                                <th class="px-6 py-4 font-semibold">${t.applicationDate}</th>
+                                                <th class="px-6 py-4 font-semibold">${t.status}</th>
+                                                <th class="px-6 py-4 font-semibold">${t.actions}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            ${rows}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- Logic & Event Handlers ---
+
+        function navigateTo(page) {
+            state.currentPage = page;
+            renderApp();
+            window.scrollTo(0, 0);
+        }
+
+        function openDetail(jobId) {
+            state.selectedJob = internships.find(j => j.id === jobId);
+            navigateTo('detail');
+        }
+
+        function changeLang(lang) {
+            state.lang = lang;
+            renderApp();
+        }
+
+        function updateSearch(term) {
+            state.searchTerm = term;
+            renderApp();
+        }
+
+        function updateRegion(region) {
+            state.selectedRegion = region;
+            renderApp();
+        }
+
+        function performLogin(type = 'trainee') {
+            state.userType = type;
+            const nameInput = document.getElementById('login-name');
+            const emailInput = document.getElementById('login-email');
+            
+            const name = nameInput && nameInput.value ? nameInput.value : (type === 'employer' ? "Sofitel Manager" : "Amine Trainee");
+            const email = emailInput && emailInput.value ? emailInput.value : (type === 'employer' ? "hr@sofitel.com" : "amine@student.ma");
+
+            state.user = { name: name, email: email };
+            navigateTo('profile');
+        }
+
+        function performLogout() {
+            state.user = null;
+            state.userType = 'trainee';
+            navigateTo('home');
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // --- New Function to Handle Application Submission ---
+        function submitApplication() {
+            const job = state.selectedJob;
+            const date = new Date().toISOString().split('T')[0];
+            
+            // Create new application object
+            const newApp = {
+                id: Date.now(),
+                hotel: job.hotel,
+                role: job.title, // Pass the whole multilingual object
+                date: date,
+                status: 'pending',
+                image: job.image
+            };
+            
+            // Ensure array exists and add new app
+            if (!state.traineeApplications) state.traineeApplications = [];
+            state.traineeApplications.unshift(newApp); // Add to top
+            
+            navigateTo('success');
+        }
+
+        // --- New Functions for Employer Dashboard ---
+
+        function updateApplicationStatus(appId, newStatus) {
+            const appIndex = employerApplications.findIndex(a => a.id === appId);
+            if (appIndex !== -1) {
+                employerApplications[appIndex].status = newStatus;
+                renderApp(); 
+            }
+        }
+
+        function viewCV(appId) {
+            const app = employerApplications.find(a => a.id === appId);
+            if (!app) return;
+
+            const t = translations[state.lang];
+            const modalContent = document.getElementById('cv-modal-content');
+            const modal = document.getElementById('cv-modal');
+            const body = document.body;
+
+            modalContent.innerHTML = `
+                <div class="flex justify-between items-center p-6 border-b border-gray-100">
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-900">${app.name}</h3>
+                        <p class="text-gray-500 text-sm">${app.email} • ${app.phone}</p>
+                    </div>
+                    <button onclick="closeCVModal()" class="text-gray-400 hover:text-red-500 transition"><i data-lucide="x" class="w-6 h-6"></i></button>
+                </div>
+                <div class="p-8 space-y-6 flex-grow bg-gray-50">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+                            <h4 class="font-bold text-slate-900 mb-2 flex items-center gap-2"><i data-lucide="graduation-cap" class="w-4 h-4 text-blue-500"></i> ${t.education}</h4>
+                            <p class="text-gray-600">${app.school}</p>
+                            <p class="text-sm text-gray-400">Hospitality Management</p>
+                        </div>
+                        <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+                            <h4 class="font-bold text-slate-900 mb-2 flex items-center gap-2"><i data-lucide="award" class="w-4 h-4 text-yellow-500"></i> ${t.skills}</h4>
+                            <div class="flex flex-wrap gap-2">
+                                ${app.skills.map(s => `<span class="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">${s}</span>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white border border-gray-200 rounded-xl h-64 flex flex-col items-center justify-center text-center p-6 shadow-inner">
+                        <div class="bg-red-50 p-4 rounded-full mb-3">
+                            <i data-lucide="file-text" class="w-10 h-10 text-red-500"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-800 text-lg mb-1">${t.cvPreview}</h4>
+                        <p class="text-gray-400 text-sm mb-4">CV_${app.name.replace(' ', '_')}.pdf</p>
+                        <button class="bg-slate-900 text-white px-6 py-2 rounded-lg hover:bg-slate-800 transition flex items-center gap-2">
+                            <i data-lucide="download" class="w-4 h-4"></i> ${t.downloadCV}
+                        </button>
+                    </div>
+                </div>
+                <div class="p-4 border-t border-gray-100 flex justify-end gap-2 bg-white rounded-b-2xl">
+                    <button onclick="updateApplicationStatus(${app.id}, 'rejected'); closeCVModal()" class="px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg transition font-medium border border-red-100">${t.reject}</button>
+                    <button onclick="updateApplicationStatus(${app.id}, 'approved'); closeCVModal()" class="px-4 py-2 bg-green-600 text-white hover:bg-green-700 rounded-lg transition font-medium shadow-md">${t.accept}</button>
+                </div>
+            `;
+
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            body.classList.add('modal-active');
+            lucide.createIcons();
+        }
+
+        function closeCVModal() {
+            const modal = document.getElementById('cv-modal');
+            const body = document.body;
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            body.classList.remove('modal-active');
+        }
+
+        // Close modal on escape key
+        document.onkeydown = function(evt) {
+            evt = evt || window.event;
+            if (evt.keyCode == 27) {
+                closeCVModal();
+            }
+        };
+
+        // --- Initialization ---
+        window.onload = renderApp;
+
+    </script>
+</body>
+</html>
