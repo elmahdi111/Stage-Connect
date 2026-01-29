@@ -1,5 +1,5 @@
 
-# Project Title
+# PStage‑Connect
 
 Stage‑Connect is a web application created to help students from **CMC Pole Tourisme**. The students had a solution for finding internships in hotels, but they didn’t have the skills to build a website themselves. I built this website for them to make their solution accessible and easy to use.
 
