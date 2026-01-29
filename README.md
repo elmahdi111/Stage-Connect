@@ -14,3 +14,7 @@ The main goal of Stage‑Connect is to provide a **website for students** so the
 - **Admin Dashboard:** Manage internship offers and student applications.  
 - **File Uploads:** Upload documents needed for applications.  
 - **Pre-built Pages:** Login, signup, application forms, and admin interface.  
+
+## 📧 Contact Me
+
+- If you want to use this website or have questions, please contact me: elmahdi111 or [@El Mahdi Aguenrid](https://www.linkedin.com/in/el-mahdi-aguenrid-966061350/)
